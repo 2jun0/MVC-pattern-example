@@ -79,4 +79,34 @@ public class BoardDAO {
 		
 		return list;
 	}
+	
+	//글 수정하기
+	public void update(String _num, String _title, String _author, String _content) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			
+			con = dataFactory.getConnection();
+			String query = "UPDATE board SET title = ? , author = ? , content = ? WHERE num = ?";
+			
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, _title);
+			pstmt.setString(2, _author);
+			pstmt.setString(3, _content);
+			pstmt.setInt(4, Integer.parseInt(_num));
+			
+			int n = pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
