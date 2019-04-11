@@ -109,4 +109,64 @@ public class BoardDAO {
 			}
 		}
 	}
+	
+	//글 검색하기
+	public ArrayList<BoardDTO> search(String _searchName, String _searchValue){
+		
+		ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = dataFactory.getConnection();
+			
+			String query = "SELECT num , author , title , content , to_char( writeday, 'YYYY/MM/DD') writeday , readcnt FROM board";
+			
+			if( _searchName.equals( "title" )) {
+				
+				query += " WHERE title LIKE ?";
+			}else {
+				
+				query += " WHERE author LIKE ?";
+			}
+			
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, "%"+_searchValue+"%");
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int num = rs.getInt("num");
+				String author = rs.getString("author");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String writeday = rs.getString("writeday");
+				int readcnt = rs.getInt("readcnt");
+				
+				BoardDTO data = new BoardDTO();
+				data.setNum(num);
+				data.setAuthor(author);
+				data.setTitle(title);
+				data.setContent(content);
+				data.setWriteday(writeday);
+				data.setReadcnt(readcnt);
+				
+				list.add(data);
+				
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(con!=null) con.close();
+				
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
 }
