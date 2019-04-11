@@ -22,7 +22,7 @@ public class BoardDAO {
 		
 		try {
 			Context ctx = new InitialContext();
-			dataFactory = (DataSource)ctx.lookup("java:comp/env/jdbc/Oracle11g");
+			dataFactory = (DataSource)ctx.lookup("java:comp/env/jdbc/mysql");
 			
 		}catch(NamingException e) {
 			e.printStackTrace();
