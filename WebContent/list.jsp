@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<!-- taglib은 c:forEach를 쓰기 위해 추가한 것임. -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,7 +15,7 @@
 		<tr>
 			<td colspan="5">
 				<form action="search.do">
-					<select name="searchName" size"1">
+					<select name="searchName" size="1">
 						<option value="author">작성자</option>
 						<option value="title">글제목</option>
 					</select>
@@ -30,9 +32,8 @@
 			<td>날짜</td>
 			<td>조회수</td>
 		</tr>
-		
+
 		<c:forEach items="${list}" var="dto">	
-		
 			<tr>
 				<td>${dto.num}</td>
 				<td>${dto.title}</td>

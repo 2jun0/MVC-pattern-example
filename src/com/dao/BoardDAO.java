@@ -38,7 +38,7 @@ public class BoardDAO {
 		try {
 			con = dataFactory.getConnection();
 			
-			String query = "SELECT num, author, title, content, to_char(writeday,'YYYY/MM/DD')writeday, readcnt, repRoot, repStep, repindent FROM board order by repRoot desc, repStep asc";
+			String query = "SELECT num , author , title , content , DATE_FORMAT( writeday, '%Y/%m/%d') writeday, readcnt, repRoot, repStep, repIndent FROM board";
 			pstmt = con.prepareStatement(query);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -121,7 +121,7 @@ public class BoardDAO {
 		try {
 			con = dataFactory.getConnection();
 			
-			String query = "SELECT num , author , title , content , to_char( writeday, 'YYYY/MM/DD') writeday , readcnt FROM board";
+			String query = "SELECT num , author , title , content , DATE_FORMAT( writeday, '%Y/%m/%d') writeday, readcnt FROM board";
 			
 			if( _searchName.equals( "title" )) {
 				
