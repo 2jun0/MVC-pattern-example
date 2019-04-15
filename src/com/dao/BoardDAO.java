@@ -198,4 +198,45 @@ public class BoardDAO {
 			}
 		}
 	}
+	
+	public BoardDTO replyui(String _num) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		BoardDTO data = new BoardDTO();
+		
+		try {
+			con = dataFactory.getConnection();
+			String query = "SELECT * FROM board WHERE num = ?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, Integer.parseInt(_num));
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				data.setNum(rs.getInt("num"));
+				data.setTitle(rs.getString("title"));
+				data.setAuthor(rs.getString("author"));
+				data.setContent(rs.getString("content"));
+				data.setWriteday(rs.getString("writeday"));
+				data.setReadcnt(rs.getInt("readcnt"));
+				data.setRepRoot(rs.getInt("repStep"));
+				data.setRepstep(rs.getInt("repStep"));
+				data.setRepIndent(rs.getInt("repIndent"));
+				
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs != null)rs.close();
+				if(pstmt != null)pstmt.close();
+				if(con != null)con.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return data;
+	}
 }
