@@ -13,6 +13,7 @@ import com.service.BoardCommand;
 import com.service.BoardListCommand;
 import com.service.BoardSearchCommand;
 import com.service.BoardUpdateCommand;
+import com.service.BoardWriteCommand;
 
 @WebServlet("*.do")
 public class BoardFrontController extends HttpServlet {
@@ -26,6 +27,7 @@ public class BoardFrontController extends HttpServlet {
   protected void doPost(HttpServletRequest request,
   HttpServletResponse response) throws ServletException, IOException
   {
+	request.setCharacterEncoding("EUC-KR");
     String requestURI = request.getRequestURI();
     String contextPath = request.getContextPath();
     String com = requestURI.substring(contextPath.length());
@@ -33,21 +35,31 @@ public class BoardFrontController extends HttpServlet {
     BoardCommand command = null;
     String nextPage = null;
 
-    // 목록 보기
+    // 紐⑸줉 蹂닿린
     if(com.equals("/list.do")){
       command = new BoardListCommand();
       command.execute(request, response);
       nextPage = "list.jsp";
     }
+    //글쓰기 폼
+    if(com.equals("/writeui.do")) {
+    	nextPage = "write.jsp";
+    }
+    //글쓰기
+    if(com.equals("/write.do")) {
+    	command = new BoardWriteCommand();
+    	command.execute(request, response);
+    	nextPage = "list.do";
+    }
     
-    // 글 수정하기
+    // 湲� �닔�젙�븯湲�
     if(com.equals("/update.do")) {
     	command = new BoardUpdateCommand();
     	command.execute(request, response);
     	nextPage = "list.do";
     }
     
-    // 글 검색하기
+    // 湲� 寃��깋�븯湲�
     if(com.equals("/search.do")) {
     	command = new BoardSearchCommand();
     	command.execute(request, response);

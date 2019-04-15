@@ -80,7 +80,7 @@ public class BoardDAO {
 		return list;
 	}
 	
-	//글 수정하기
+	//湲� �닔�젙�븯湲�
 	public void update(String _num, String _title, String _author, String _content) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -110,7 +110,7 @@ public class BoardDAO {
 		}
 	}
 	
-	//글 검색하기
+	//湲� 寃��깋�븯湲�
 	public ArrayList<BoardDTO> search(String _searchName, String _searchValue){
 		
 		ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
@@ -168,5 +168,34 @@ public class BoardDAO {
 		}
 		
 		return list;
+	}
+	
+	public void write(String _title, String _author, String _content) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = dataFactory.getConnection();
+			
+			String query = "INSERT INTO board(num, title, author, content, repRoot, repStep, repIndent) values(board_seq.nextval, ?, ?, ?, board_seq.currval, 0, 0)";
+			
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, _title);
+			pstmt.setString(2, _author);
+			pstmt.setString(3, _content);
+			
+			int n = pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
