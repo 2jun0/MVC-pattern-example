@@ -33,6 +33,7 @@ public class BoardFrontController extends HttpServlet {
     String contextPath = request.getContextPath();
     String com = requestURI.substring(contextPath.length());
 
+	  
     BoardCommand command = null;
     String nextPage = null;
 
