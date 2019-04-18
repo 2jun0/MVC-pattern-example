@@ -178,7 +178,7 @@ public class BoardDAO {
 		try {
 			con = dataFactory.getConnection();
 			
-			String query = "INSERT INTO board(num, title, author, content, repRoot, repStep, repIndent) values(board_seq.nextval, ?, ?, ?, board_seq.currval, 0, 0)";
+			String query = "INSERT INTO board (author , title , content , repRoot, repIndent) values(?, ?, ?, 0, 0)";
 			
 			pstmt = con.prepareStatement(query);
 			
