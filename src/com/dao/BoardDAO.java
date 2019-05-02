@@ -208,7 +208,7 @@ public class BoardDAO {
 		
 		try {
 			con = dataFactory.getConnection();
-			String query = "SELECT * FROM board WHERE num = ?";
+			String query = "SELECT * FROM board WHARE num = ?";
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, Integer.parseInt(_num));
 			rs = pstmt.executeQuery();
@@ -239,4 +239,79 @@ public class BoardDAO {
 		
 		return data;
 	}
-}
+	
+	//조회수 1 증가
+	public void readCount(String _num) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con=dataFactory.getConnection();
+			String query = "UPDATE board SET readcnt = readcnt + 1 WHERE num="+_num;
+			
+			pstmt = con.prepareStatement(query);
+			
+			int n = pstmt.executeUpdate();
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			
+			try {
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}//end finally
+	}//end readCount
+
+	//글 자세히 보기
+	public BoardDTO retrieve(String _num) {
+		
+		//조회수 증가
+		readCount(_num);
+		
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs=null;
+		BoardDTO data=new BoardDTO();
+		
+		try {
+			con = dataFactory.getConnection();
+			String query="SELECT * FROM board WHERE num = ?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, Integer.parseInt(_num));
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				int num = rs.getInt("num");
+				String title = rs.getString("title");
+				String author = rs.getString("author");
+				String content = rs.getString("content");
+				String writeday = rs.getString("writeday");
+				int readcnt = rs.getInt("readcnt");
+				
+				data.setNum(num);
+				data.setTitle(title);
+				data.setAuthor(author);
+				data.setContent(content);
+				data.setWriteday(writeday);
+				data.setReadcnt(readcnt);
+				
+			}//end if
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}//end finally
+		
+		return data;
+	}//end retrieve
+}//end class

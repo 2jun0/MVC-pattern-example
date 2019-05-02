@@ -12,6 +12,7 @@ import javax.servlet.RequestDispatcher;
 import com.service.BoardCommand;
 import com.service.BoardListCommand;
 import com.service.BoardReplyUICommand;
+import com.service.BoardRetrieveCommand;
 import com.service.BoardSearchCommand;
 import com.service.BoardUpdateCommand;
 import com.service.BoardWriteCommand;
@@ -52,6 +53,13 @@ public class BoardFrontController extends HttpServlet {
     	command = new BoardWriteCommand();
     	command.execute(request, response);
     	nextPage = "list.do";
+    }
+    
+    //글 자세히 보기
+    if(com.equals("/retrieve.do")) {
+    	command = new BoardRetrieveCommand();
+    	command.execute(request, response);
+    	nextPage = "retrieve.jsp";
     }
     
     // 湲� �닔�젙�븯湲�
