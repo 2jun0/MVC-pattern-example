@@ -80,7 +80,7 @@ public class BoardDAO {
 		return list;
 	}
 	
-	//湲� �닔�젙�븯湲�
+	//수정하기
 	public void update(String _num, String _title, String _author, String _content) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -110,7 +110,7 @@ public class BoardDAO {
 		}
 	}
 	
-	//湲� 寃��깋�븯湲�
+	//검색하기
 	public ArrayList<BoardDTO> search(String _searchName, String _searchValue){
 		
 		ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
