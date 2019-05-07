@@ -13,7 +13,7 @@
 
 	<form action = "update.do" method = "post">
 		<!-- 글 수정시 필요 -->
-		<input type="hidden" name="num" value="$(retrieve.num)">
+		<input type="hidden" name="num" value="${retrieve.num}">
 		글번호 : ${retrieve.num} &nbsp;&nbsp;&nbsp;&nbsp;
 		조회수 : ${retrieve.readcnt}<br/>
 		제목<input type="text" name="title" value="${retrieve.title}"><br>
