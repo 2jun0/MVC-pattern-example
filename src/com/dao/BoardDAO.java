@@ -314,4 +314,31 @@ public class BoardDAO {
 		
 		return data;
 	}//end retrieve
+	
+	//글 삭제하기
+	public void delete(String _num) {
+		
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		
+		try {
+			
+			con=dataFactory.getConnection();
+			String query="DELETE FROM board WHERE num=?";
+			
+			pstmt=con.prepareStatement(query);
+			pstmt.setInt(1, Integer.parseInt(_num));
+			int n=pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}//end finally
+		
+	}//end delete
 }//end class
