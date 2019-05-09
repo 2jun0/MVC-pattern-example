@@ -81,6 +81,13 @@ public class BoardFrontController extends HttpServlet {
     	command.execute(request, response);
     	nextPage = "reply.jsp";
     }
+    
+    //글 삭제하기
+    if(com.contentEquals("/delete.do")) {
+    	command=new BoardDeleteCommand();
+    	command.execute(request, response);
+    	nextPage="list.do";
+    }
 
     RequestDispatcher dis = request.getRequestDispatcher(nextPage);
     dis.forward(request, response);
