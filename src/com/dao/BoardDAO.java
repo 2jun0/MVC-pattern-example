@@ -340,4 +340,73 @@ public class BoardDAO {
 			}
 		}//end finally
 	}//end delete
+	
+	//답변글의 기존 repStep 1 증가
+	public void makeReply(String _root , String _step){
+		
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		
+		try {
+			
+			con=dataFactory.getConnection();
+			String query="UPDATE board SET repStep=repStep+1 WHERE repRoot= ? AND repStep > ?";
+			
+			pstmt=con.prepareStatement(query);
+			
+			pstmt.setInt(1, Integer.parseInt(_root));
+			pstmt.setInt(2, Integer.parseInt(_step));
+			
+			int n=pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}//end finally
+	}//end makeReply
+	
+	//답변달기
+	public void reply(String _num, String _title, String _author, String _content,
+	String _repRoot, String _repStep, String _replndent) {
+		
+		//repStep +1
+		makeReply(_repRoot,_repStep);
+		
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		
+		try {
+			
+			con=dataFactory.getConnection();
+			
+			String query="INSERT INTO board(num,title,author,content,repRoot,repStep,replndent) "
+					+ "values(myboard_seq.nextVal,?,?,?,?,?,?)";	
+		
+			pstmt=con.prepareStatement(query);
+			
+			pstmt.setString(1, _title);
+			pstmt.setString(1, _author);
+			pstmt.setString(1, _content);
+			pstmt.setInt(4, Integer.parseInt(_repRoot));
+			pstmt.setInt(5, Integer.parseInt(_repStep)+1);
+			pstmt.setInt(6, Integer.parseInt(_replndent)+1);
+			
+			int n=pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt!=null)pstmt.close();
+				if(con!=null)con.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}//end finally
+	}//end reply
+	
 }//end class
