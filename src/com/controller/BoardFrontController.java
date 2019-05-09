@@ -83,8 +83,15 @@ public class BoardFrontController extends HttpServlet {
     }
     
     //글 삭제하기
-    if(com.contentEquals("/delete.do")) {
-    	command=new BoardDeleteCommand();
+    if(com.equals("/delete.do")) {
+    	command = new BoardDeleteCommand();
+    	command.execute(request, response);
+    	nextPage="list.do";
+    }
+    
+    //답변 글쓰기
+    if(com.equals("/reply.do")) {
+    	command = new BoardReplyCommand();
     	command.execute(request, response);
     	nextPage="list.do";
     }
