@@ -339,6 +339,5 @@ public class BoardDAO {
 				e.printStackTrace();
 			}
 		}//end finally
-		
 	}//end delete
 }//end class
